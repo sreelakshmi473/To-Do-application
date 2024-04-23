@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+  {% block body %}
+<body>
+    <div class="container">
+    
+    <h2>welcome {{ request.user }}</h2>
+    <h2>index page</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-outline-dark" type="submit">submit</button>
+    </form>
+    </div>
+<div class="container">
+    <table class="table table-stripped">
+        <tr>
+            <th>taskname</th>
+            <th>status</th>
+            <th>update</th>
+            <th>delete</th>
+        </tr>
+        {% for i in data %}
+    <tr>
+        <td>{{ i.name }}</td>
+        {% if i.complete == False %}
+        <td>{{ i.complete }}</td>
+        {% else %}
+        <td><svg  class="bg-success" xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg></td>
+        {% endif %}
+        {% if i.complete == False %}
+        <td><a class="btn btn-outline-info" href="{% url 'edit' i.id %}">complete</a></td>
+        {% elif i.complete == True %}
+        <td><a class="btn btn-outline-info" href="{% url 'edit' i.id %}">not complete</a></td>
+        {% endif %}
+        <td><a class="btn btn-outline-primary" href="{% url 'delete' i.id %}">delete</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+</body>
+{% endblock %}
